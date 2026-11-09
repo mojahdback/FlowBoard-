@@ -35,16 +35,11 @@ flowboard/
 │
 ├── index.html
 │
-├── css/
-│   └── style.css
-│
+|
 ├── js/
 │   ├── api.js
 │   ├── ui.js
-│   ├── app.js
-│   └── validation.js
-│
-├── assets/
+│  
 │
 ├── README.md
 └── .gitignore

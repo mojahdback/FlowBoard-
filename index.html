@@ -67,6 +67,63 @@
       </section>
     </main>
 
+    <!-- the inputs add new cart -->
+    <div
+      id="modal"
+      class="hidden fixed inset-0 bg-black/50 flex items-center justify-center"
+    >
+      <form
+        id="card-form"
+        class="bg-white p-4 rounded w-80 flex flex-col gap-2"
+      >
+        <h2 class="font-bold">Nouvelle carte</h2>
+
+        <label for="title">Titre</label>
+        <input id="title" name="title" class="border p-1 rounded" />
+        <p id="error-title" class="text-red-600 text-sm"></p>
+
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          name="description"
+          class="border p-1 rounded"
+        ></textarea>
+
+        <label for="priority">Priorité</label>
+        <select id="priority" name="priority" class="border p-1 rounded">
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+
+        <label for="assignee">Assigné</label>
+        <input id="assignee" name="assignee" class="border p-1 rounded" />
+
+        <label for="status">Statut</label>
+        <select id="status" name="status" class="border p-1 rounded">
+          <option value="todo">À faire</option>
+          <option value="doing">En cours</option>
+          <option value="done">Terminé</option>
+        </select>
+
+        <div class="flex justify-end gap-2 mt-2">
+          <button
+            type="button"
+            id="btn-cancel"
+            class="border px-3 py-1 rounded"
+          >
+            Annuler
+          </button>
+          <button
+            type="submit"
+            class="bg-blue-600 text-white px-3 py-1 rounded"
+          >
+            Ajouter
+          </button>
+        </div>
+      </form>
+    </div>
+
     <script type="module" src="main.js"></script>
   </body>
 </html>

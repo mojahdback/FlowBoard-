@@ -1,44 +1,72 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FlowBoard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 p-4">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FlowBoard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 p-4">
+    <!-- header -->
+    <header class="flex justify-between items-center mb-4">
+      <h1 class="text-2xl font-bold">FlowBoard</h1>
+      <button
+        id="btn-new-card"
+        class="bg-blue-600 text-white px-3 py-1 rounded"
+      >
+        + Nouvelle carte
+      </button>
+    </header>
 
-  <!-- header -->
-  <header class="flex justify-between items-center mb-4">
-    <h1 class="text-2xl font-bold">FlowBoard</h1>
-    <button id="btn-new-card" class="bg-blue-600 text-white px-3 py-1 rounded">
-      + Nouvelle carte
-    </button>
-  </header>
+    <!-- Barre de filtres -->
+    <section class="flex gap-2 mb-4">
+      <select id="filter-priority" class="border p-1 rounded">
+        <option value="">Priorité</option>
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
 
-   <!-- Barre de filtres -->
-  <section class="flex gap-2 mb-4">
-    <select id="filter-priority" class="border p-1 rounded">
-      <option value="">Priorité</option>
-      <option value="low">Low</option>
-      <option value="medium">Medium</option>
-      <option value="high">High</option>
-    </select>
+      <select id="filter-assignee" class="border p-1 rounded">
+        <option value="">Assigné</option>
+        <option value="Sara">Sara</option>
+        <option value="Ali">Ali</option>
+      </select>
 
-    <select id="filter-assignee" class="border p-1 rounded">
-      <option value="">Assigné</option>
-      <option value="Sara">Sara</option>
-      <option value="Ali">Ali</option>
-    </select>
+      <input
+        id="filter-q"
+        type="text"
+        placeholder="Rechercher..."
+        class="border p-1 rounded"
+      />
 
-    <input id="filter-q" type="text" placeholder="Rechercher..." class="border p-1 rounded" />
+      <button id="btn-reset" class="border px-3 py-1 rounded bg-white">
+        Réinitialiser
+      </button>
+    </section>
 
-    <button id="btn-reset" class="border px-3 py-1 rounded bg-white">Réinitialiser</button>
-  </section>
+    <div id="status-message" class="mb-4"></div>
 
+    <!-- Les 3 colonnes -->
+    <main class="grid grid-cols-3 gap-4">
+      <section class="bg-white p-3 rounded shadow">
+        <h2 class="font-bold mb-2">À faire (<span id="count-todo">0</span>)</h2>
+        <div id="col-todo" class="flex flex-col gap-2"></div>
+      </section>
 
- 
+      <section class="bg-white p-3 rounded shadow">
+        <h2 class="font-bold mb-2">
+          En cours (<span id="count-doing">0</span>)
+        </h2>
+        <div id="col-doing" class="flex flex-col gap-2"></div>
+      </section>
 
-  <script type="module" src="main.js"></script>
-</body>
+      <section class="bg-white p-3 rounded shadow">
+        <h2 class="font-bold mb-2">Terminé (<span id="count-done">0</span>)</h2>
+        <div id="col-done" class="flex flex-col gap-2"></div>
+      </section>
+    </main>
+
+    <script type="module" src="main.js"></script>
+  </body>
 </html>

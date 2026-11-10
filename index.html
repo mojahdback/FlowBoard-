@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FlowBoard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style/card.css">
   </head>
   <body class="bg-gray-100 p-4">
     <!-- header -->
@@ -48,7 +49,7 @@
     <div id="status-message" class="mb-4"></div>
 
     <!-- Les 3 colonnes -->
-    <main class="grid grid-cols-3 gap-4">
+    <main class="column grid grid-cols-3 gap-4">
       <section class="bg-white p-3 rounded shadow">
         <h2 class="font-bold mb-2">À faire (<span id="count-todo">0</span>)</h2>
         <div id="col-todo" class="flex flex-col gap-2"></div>
@@ -123,7 +124,8 @@
         </div>
       </form>
     </div>
+    
+  <script type="module" src="./script/ui.js"></script>
 
-    <script type="module" src="main.js"></script>
   </body>
 </html>

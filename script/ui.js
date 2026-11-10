@@ -1,10 +1,17 @@
 
 import { getCards } from './api.js';
 
+
+const state = {
+    cards:[]
+};
+
 getCards()
 
     .then(data => {
-        console.log(data);
+
+        state.cards  = data ;
+        console.log(state.cards);
     })
 
     .catch(error => {

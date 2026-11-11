@@ -3,7 +3,9 @@ import { getCards } from './api.js';
 
 
 const state = {
-    cards: []
+    cards: [],
+    loading: false,
+    error: null
 };
 
 const counTodo = document.getElementById('count-todo');
@@ -15,19 +17,73 @@ const colunDoing = document.getElementById('col-doing');
 const colunDone = document.getElementById('col-done');
 
 
-
-getCards()
-
-    .then(data => {
-        state.cards = data;
-        createCart();
+function loadCards() {
 
 
-    })
+    state.loading = true;
+    state.error = null;
 
-    .catch(error => {
-        console.log('Erreur:', error);
-    });
+    getCards()
+
+        .then(data => {
+            state.cards = data;
+
+        })
+
+        .catch(error => {
+            state.error = error.message;
+        })
+
+        .finally(() => {
+            state.loading = false;
+            renderState();
+
+        })
+
+
+
+}
+
+const loadingEl = document.getElementById('loading');
+const errorEl = document.getElementById('error');
+const retryBtn = document.getElementById('retry');
+const board = document.getElementById('board');
+
+
+function renderState() {
+
+    if (state.loading) {
+
+        loadingEl.hidden = false;
+        errorEl.hidden = true;
+        retryBtn.hidden = true;
+        board.hidden = true;
+
+        return;
+    }
+
+    if (state.error) {
+        loadingEl.hidden = true;
+        errorEl.hidden = false;
+        retryBtn.hidden = false;
+        board.hidden = true;
+        errorEl.textContent = state.error;
+        return;
+
+    }
+
+    loadingEl.hidden = true;
+    errorEl.hidden = true;
+    retryBtn.hidden = true;
+    board.hidden = false;
+
+    createCart();
+
+}
+
+retryBtn.addEventListener('click', () => {
+    loadCards();
+})
 
 
 function creatEl(tag, class_Name, text) {
@@ -38,8 +94,11 @@ function creatEl(tag, class_Name, text) {
 
 }
 
-
 function createCart() {
+
+    colunTodo.innerHTML = '';
+    colunDoing.innerHTML = '';
+    colunDone.innerHTML = '';
 
     const todoCards = state.cards.filter(card => card.status === 'todo');
     const doingCards = state.cards.filter(card => card.status === 'in-progress');
@@ -58,7 +117,7 @@ function createCart() {
         const dueDate = creatEl('p', 'dueDate-class', card.dueDate);
         const priority = creatEl('span', 'priority-class', card.priority);
         const status = creatEl('span', 'status-class', card.status);
-        cart.append(title ,assignee , dueDate ,priority  , status) ;
+        cart.append(title, assignee, dueDate, priority, status);
         colunTodo.appendChild(cart);
 
 
@@ -72,9 +131,9 @@ function createCart() {
         const dueDate = creatEl('p', 'dueDate-class', card.dueDate);
         const priority = creatEl('span', 'priority-class', card.priority);
         const status = creatEl('span', 'status-class', card.status);
-        cart.append(title ,assignee , dueDate ,priority  , status) ;
+        cart.append(title, assignee, dueDate, priority, status);
         colunDoing.appendChild(cart);
-       
+
     });
 
     doneCards.forEach(card => {
@@ -85,12 +144,14 @@ function createCart() {
         const dueDate = creatEl('p', 'dueDate-class', card.dueDate);
         const priority = creatEl('span', 'priority-class', card.priority);
         const status = creatEl('span', 'status-class', card.status);
-        cart.append(title ,assignee , dueDate ,priority  , status) ;
+        cart.append(title, assignee, dueDate, priority, status);
         colunDone.appendChild(cart);
-     
+
     });
 
 
 }
 
+
+loadCards();
 

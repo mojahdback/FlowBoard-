@@ -112,6 +112,7 @@
           name="description"
           class="border p-1 rounded"
         ></textarea>
+        <p id="error-description" class="text-red-600 text-sm"></p>
 
         <label for="priority">Priorité</label>
         <select id="priority" name="priority" class="border p-1 rounded">
@@ -122,13 +123,17 @@
 
         <label for="assignee">Assigné</label>
         <input id="assignee" name="assignee" class="border p-1 rounded" />
+        <p id="error-assignee" class="text-red-600 text-sm"></p>
 
         <label for="status">Statut</label>
         <select id="status" name="status" class="border p-1 rounded">
           <option value="todo">À faire</option>
-          <option value="doing">En cours</option>
+          <option value="in-progress">En cours</option>
           <option value="done">Terminé</option>
         </select>
+
+        <input id="date" type="date" placeholder="Enter due date...">
+        <p id="error-date" class="text-red-600 text-sm"></p>
 
         <div class="flex justify-end gap-2 mt-2">
           <button
@@ -139,7 +144,8 @@
             Annuler
           </button>
           <button
-            type="submit"
+            type="button"
+            id="save-cart"
             class="bg-blue-600 text-white px-3 py-1 rounded"
           >
             Ajouter

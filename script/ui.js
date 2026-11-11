@@ -153,5 +153,27 @@ function createCart() {
 }
 
 
+const modal  = document.getElementById('modal');
+const newCartBtn = document.getElementById('btn-new-card'); 
+const btnCancel = document.getElementById('btn-cancel');
+
+function openModal(){
+    modal.classList.remove('hidden');
+
+}
+
+function closeModal(){
+     modal.classList.add('hidden');
+
+}
+
+newCartBtn.addEventListener('click' ,openModal );
+btnCancel.addEventListener('click' ,closeModal );
+
+
 loadCards();
+
+
+
+
 

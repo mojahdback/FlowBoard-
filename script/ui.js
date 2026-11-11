@@ -153,22 +153,23 @@ function createCart() {
 }
 
 
-const modal  = document.getElementById('modal');
-const newCartBtn = document.getElementById('btn-new-card'); 
+const modal = document.getElementById('modal');
+const newCartBtn = document.getElementById('btn-new-card');
 const btnCancel = document.getElementById('btn-cancel');
+const cardForm = document.getElementById('card-form');
 
-function openModal(){
+function openModal() {
     modal.classList.remove('hidden');
 
 }
 
-function closeModal(){
-     modal.classList.add('hidden');
+function closeModal() {
+    modal.classList.add('hidden');
 
 }
 
-newCartBtn.addEventListener('click' ,openModal );
-btnCancel.addEventListener('click' ,closeModal );
+newCartBtn.addEventListener('click', openModal);
+btnCancel.addEventListener('click', closeModal);
 
 const titleCard = document.getElementById('title');
 const descriptCard = document.getElementById('description');
@@ -178,13 +179,13 @@ const statusCard = document.getElementById('status');
 const dateCard = document.getElementById('date');
 const btnSaveCart = document.getElementById('save-cart');
 
-function addNewCart(){
+function addNewCart() {
     state.cards.push({
-        title: titleCard.value ,
-        description: descriptCard.value ,
-        status:statusCard.value,
-        priority:priorityCard.value,
-        assignee:assigneeCard.value,
+        title: titleCard.value,
+        description: descriptCard.value,
+        status: statusCard.value,
+        priority: priorityCard.value,
+        assignee: assigneeCard.value,
         dueDate: dateCard.value
 
     })
@@ -192,14 +193,64 @@ function addNewCart(){
 
 }
 
-btnSaveCart.addEventListener('click' , () => {
+const errorTitle = document.getElementById('error-title');
+const errorDescript = document.getElementById('error-description');
+const errorAssignee = document.getElementById('error-assignee');
+const errorDate = document.getElementById('error-date');
+
+function validateForm() {
+    let virifi = true;
+    if (titleCard.value.trim() === '') {
+        errorTitle.textContent = "Invalide Title ";
+        virifi = false;
+    } else {
+        errorTitle.textContent = '';
+    }
+
+    if (descriptCard.value.trim() !== '' && descriptCard.value.trim().length < 10) {
+        errorDescript.textContent =
+            "Invalide Description";
+
+        virifi = false;
+    } else {
+        errorDescript.textContent = "";
+    }
+
+    if (assigneeCard.value.trim() === "") {
+        errorAssignee.textContent =
+            "L'assigné est obligatoire";
+
+        virifi = false;
+    } else {
+        errorAssignee.textContent = "";
+    }
+
+    let today = new Date();
+
+    let slectDate = new Date(dateCard.value);
+
+    if (!(today.getFullYear() < slectDate.getFullYear() ||
+        (today.getFullYear() === slectDate.getFullYear() && today.getMonth() < slectDate.getMonth()) ||
+        (today.getFullYear() === slectDate.getFullYear() && today.getMonth() === slectDate.getMonth() && today.getDate() < slectDate.getDate()))) {
+
+        errorDate.textContent = "La date doit être superieure a aujourd'hui";
+        virifi = false;
+    }
+
+    return virifi;
+}
+
+btnSaveCart.addEventListener('click', () => {
+    if (!validateForm()) {
+        return;
+    }
     addNewCart();
 
     renderState();
 
     closeModal();
 
-    console.log(state);
+    cardForm.reset();
 
 })
 

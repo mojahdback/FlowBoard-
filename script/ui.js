@@ -170,6 +170,38 @@ function closeModal(){
 newCartBtn.addEventListener('click' ,openModal );
 btnCancel.addEventListener('click' ,closeModal );
 
+const titleCard = document.getElementById('title');
+const descriptCard = document.getElementById('description');
+const priorityCard = document.getElementById('priority');
+const assigneeCard = document.getElementById('assignee');
+const statusCard = document.getElementById('status');
+const dateCard = document.getElementById('date');
+const btnSaveCart = document.getElementById('save-cart');
+
+function addNewCart(){
+    state.cards.push({
+        title: titleCard.value ,
+        description: descriptCard.value ,
+        status:statusCard.value,
+        priority:priorityCard.value,
+        assignee:assigneeCard.value,
+        dueDate: dateCard.value
+
+    })
+
+
+}
+
+btnSaveCart.addEventListener('click' , () => {
+    addNewCart();
+
+    renderState();
+
+    closeModal();
+
+    console.log(state);
+
+})
 
 loadCards();
 

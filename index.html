@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FlowBoard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style/card.css">
+    <link rel="stylesheet" href="style/card.css" />
   </head>
   <body class="bg-gray-100 p-4">
     <!-- header -->
@@ -48,8 +48,31 @@
 
     <div id="status-message" class="mb-4"></div>
 
+    <!-- Loading -->
+    <div id="loading" class="text-center py-6 text-blue-600 font-medium">
+      <span
+        class="animate-spin inline-block w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full mr-2"
+      ></span>
+      Chargement des cartes...
+    </div>
+
+    <!-- Error -->
+    <div
+      id="error"
+      class="bg-red-50 text-red-600 border border-red-200 rounded-lg p-4 text-sm mb-3"
+    ></div>
+
+    <!-- Retry Button -->
+    <button
+      id="retry"
+      hidden
+      class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg text-sm font-medium transition duration-200"
+    >
+      Réessayer
+    </button>
+
     <!-- Les 3 colonnes -->
-    <main class="column grid grid-cols-3 gap-4">
+    <main id="board" class="column grid grid-cols-3 gap-4">
       <section class="bg-white p-3 rounded shadow">
         <h2 class="font-bold mb-2">À faire (<span id="count-todo">0</span>)</h2>
         <div id="col-todo" class="flex flex-col gap-2"></div>
@@ -124,8 +147,7 @@
         </div>
       </form>
     </div>
-    
-  <script type="module" src="./script/ui.js"></script>
 
+    <script type="module" src="./script/ui.js"></script>
   </body>
 </html>

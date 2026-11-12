@@ -1,6 +1,6 @@
-export function getCards() {
+export function getCards(params = new URLSearchParams()) {
 
-    return fetch('https://flowboard-api-virid.vercel.app/cards')
+    return fetch(`https://flowboard-api-virid.vercel.app/cards?${params.toString()}`)
 
         .then(response => {
 
@@ -12,9 +12,5 @@ export function getCards() {
 
 
         })
-
-        .catch(error => {
-            throw error;
-        });
 
 }

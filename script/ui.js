@@ -17,16 +17,23 @@ const colunDoing = document.getElementById('col-doing');
 const colunDone = document.getElementById('col-done');
 
 
-function loadCards() {
-
+function loadCards(params = new URLSearchParams()) {
 
     state.loading = true;
     state.error = null;
-
-    getCards()
+    renderState();
+    getCards(params)
 
         .then(data => {
             state.cards = data;
+            renderAssignees(data);
+
+            if(data.length  === 0 ){
+                statusMessage.textContent = "Aucune carte";
+            }
+            else{
+                statusMessage.textContent = '';
+            }
 
         })
 
@@ -254,7 +261,51 @@ btnSaveCart.addEventListener('click', () => {
 
 })
 
+// filter 
+
+const filterPriority = document.getElementById('filter-priority');
+const filterAssignee = document.getElementById('filter-assignee');
+const filterQ = document.getElementById('filter-q');
+
+const btnReset = document.getElementById('btn-reset');
+const statusMessage = document.getElementById('status-message');
+
+function getFilters() {
+
+    const params = new URLSearchParams();
+
+    if (filterPriority.value !== '') {
+
+        params.set('priority', filterPriority.value);
+
+    }
+
+    if (filterAssignee.value !== '') {
+
+        params.set('assignee', filterAssignee.value);
+
+    }
+
+    if (filterQ.value.trim() !== '') {
+
+        params.set('q', filterQ.value.trim());
+
+    }
+
+    return params;
+
+}
+
+
+
+
 loadCards();
+
+
+
+
+
+
 
 
 

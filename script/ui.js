@@ -325,8 +325,25 @@ btnReset.addEventListener('click', () => {
 
 });
 
+function renderAssignees(cards) {
 
+    const assignees = cards.map(card => card.assignee);
 
+    const uniqueAssignees = [...new Set(assignees)];
+
+    uniqueAssignees.forEach(assignee => {
+
+        const option = document.createElement('option');
+
+        option.value = assignee;
+
+        option.textContent = assignee;
+
+        filterAssignee.append(option);
+
+    });
+
+}
 
 loadCards();
 

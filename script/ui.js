@@ -296,6 +296,35 @@ function getFilters() {
 
 }
 
+filterPriority.addEventListener('change', () => {
+
+    loadCards(getFilters());
+
+});
+
+filterAssignee.addEventListener('change', () => {
+
+    loadCards(getFilters());
+
+});
+
+filterQ.addEventListener('input', () => {
+
+    loadCards(getFilters());
+
+});
+
+
+btnReset.addEventListener('click', () => {
+
+    filterPriority.value = '';
+    filterAssignee.value = '';
+    filterQ.value = '';
+
+    loadCards();
+
+});
+
 
 
 

@@ -1,60 +1,71 @@
 .column {
-    background: #f4f5f7;
-    padding: 15px;
-    border-radius: 10px;
+  background: #f4f5f7;
+  padding: 15px;
+  border-radius: 10px;
 }
 
-
 .card {
-    background: white;
-    padding: 15px;
-    margin-bottom: 12px;
-    border-radius: 8px;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    transition: 0.2s;
+  background: white;
+  padding: 15px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: 0.2s;
 }
 
 .card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
-
 
 .title-class {
-    font-size: 16px;
-    font-weight: 600;
-    color: #222;
-    margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 10px;
 }
 
-
 .assignee-class {
-    font-size: 13px;
-    color: #666;
+  font-size: 13px;
+  color: #666;
 }
 
 .dueDate-class {
-    font-size: 12px;
-    color: #888;
+  font-size: 12px;
+  color: #888;
 }
 
-
 .priority-class {
-    display: inline-block;
-    background: #fff3cd;
-    color: #856404;
-    padding: 4px 9px;
-    border-radius: 5px;
-    font-size: 11px;
-    margin-right: 7px;
+  display: inline-block;
+  background: #fff3cd;
+  color: #856404;
+  padding: 4px 9px;
+  border-radius: 5px;
+  font-size: 11px;
+  margin-right: 7px;
 }
 
 .status-class {
-    display: inline-block;
-    background: #e0e7ff;
-    color: #4338ca;
-    padding: 4px 9px;
-    border-radius: 5px;
-    font-size: 11px;
+  display: inline-block;
+  background: #e0e7ff;
+  color: #4338ca;
+  padding: 4px 9px;
+  border-radius: 5px;
+  font-size: 11px;
 }
+
+.btnModify {
+  display: inline-block;
+  padding: 3px;
+  border-radius: 5px;
+  background-color: gray;
+  font-size: 12px;
+  color: white;
+  border: 1px solid black;
+}
+.btnModify:hover{
+    color: green;
+}
+
+

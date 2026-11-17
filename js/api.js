@@ -1,16 +1,23 @@
-export function getCards(params = new URLSearchParams()) {
+export async function getCards(params = new URLSearchParams()) {
 
-    return fetch(`https://flowboard-api-virid.vercel.app/cards?${params.toString()}`)
+    try {
 
-        .then(response => {
-
-            if (!response.ok) {
-                throw new Error('Erreur sur chargment des cartes');
+        const response = await axios.get(
+            'https://flowboard-api-virid.vercel.app/cards?',
+            {
+                headers: {
+                    'X-Workspace': 'public'
+                },
+                params: params
             }
+        );
 
-            return response.json();
+        return response.data;
 
+    } catch (error) {
 
-        })
+        throw error;
+
+    }
 
 }

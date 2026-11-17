@@ -32,11 +32,11 @@ const statusMessage = document.getElementById('status-message');
 
 
 export const elements = {
-    retryBtn : document.getElementById('retry'),
+    retryBtn: document.getElementById('retry'),
     newCartBtn: document.getElementById('btn-new-card'),
-    btnCancel : document.getElementById('btn-cancel'),
-    btnSaveCart : document.getElementById('save-cart'),
-    btnReset : document.getElementById('btn-reset'),
+    btnCancel: document.getElementById('btn-cancel'),
+    btnSaveCart: document.getElementById('save-cart'),
+    btnReset: document.getElementById('btn-reset'),
     filterPriority,
     filterAssignee,
     filterQ
@@ -74,8 +74,8 @@ export function renderState(state) {
 
 }
 
-export function showStatusMessage(text){
-    statusMessage.textContent = text ;
+export function showStatusMessage(text) {
+    statusMessage.textContent = text;
 }
 
 
@@ -89,7 +89,7 @@ function creatEl(tag, class_Name, text) {
 }
 
 function createCart(cards) {
-    
+
     colunTodo.innerHTML = '';
     colunDoing.innerHTML = '';
     colunDone.innerHTML = '';
@@ -111,12 +111,26 @@ function createCart(cards) {
         const dueDate = creatEl('p', 'dueDate-class', card.dueDate);
         const priority = creatEl('span', 'priority-class', card.priority);
         const status = creatEl('span', 'status-class', card.status);
-        const btnModifyCart = creatEl('button' , 'btnModify' ,'Modify');
-        cart.append(title, assignee, dueDate, priority, status,btnModifyCart);
+        const btnModifyCart = creatEl('button', 'btnModify', 'Modify');
+        btnModifyCart.setAttribute('data-id', card.id);
+        cart.append(title, assignee, dueDate, priority, status, btnModifyCart);
         colunTodo.appendChild(cart);
+        btnModifyCart.addEventListener('click', async (e) => {
+            const id = e.currentTarget.dataset.id;
+            const card = await modifyCart(id);
+            console.log(card);
+            document.querySelector('[name="title"]').value = card.data.title;
+            document.querySelector('[name="description"]').value = card.data.description;
+            document.querySelector('[name="priority"]').value = card.data.priority;
+            document.querySelector('[name="assignee"]').value = card.data.priority;
+            document.querySelector('[name="status"]').value = card.data.status;
+            document.querySelector('[name="date"]').value = card.data.dueDate;
+            openModal();
 
+        })
 
     });
+
 
     doingCards.forEach(card => {
         const cart = document.createElement('div');
@@ -126,9 +140,23 @@ function createCart(cards) {
         const dueDate = creatEl('p', 'dueDate-class', card.dueDate);
         const priority = creatEl('span', 'priority-class', card.priority);
         const status = creatEl('span', 'status-class', card.status);
-        const btnModifyCart = creatEl('button' , 'btnModify' ,'Modify');
-        cart.append(title, assignee, dueDate, priority, status,btnModifyCart);
+        const btnModifyCart = creatEl('button', 'btnModify', 'Modify');
+        btnModifyCart.setAttribute('data-id', card.id);
+        cart.append(title, assignee, dueDate, priority, status, btnModifyCart);
         colunDoing.appendChild(cart);
+        btnModifyCart.addEventListener('click', async (e) => {
+            const id = e.currentTarget.dataset.id;
+            const card = await modifyCart(id);
+            console.log(card);
+            document.querySelector('[name="title"]').value = card.data.title;
+            document.querySelector('[name="description"]').value = card.data.description;
+            document.querySelector('[name="priority"]').value = card.data.priority;
+            document.querySelector('[name="assignee"]').value = card.data.priority;
+            document.querySelector('[name="status"]').value = card.data.status;
+            document.querySelector('[name="date"]').value = card.data.dueDate;
+            openModal();
+
+        })
 
     });
 
@@ -140,9 +168,23 @@ function createCart(cards) {
         const dueDate = creatEl('p', 'dueDate-class', card.dueDate);
         const priority = creatEl('span', 'priority-class', card.priority);
         const status = creatEl('span', 'status-class', card.status);
-        const btnModifyCart = creatEl('button' , 'btnModify' ,'Modify');
-        cart.append(title, assignee, dueDate, priority, status,btnModifyCart);
+        const btnModifyCart = creatEl('button', 'btnModify', 'Modify');
+        btnModifyCart.setAttribute('data-id', card.id);
+        cart.append(title, assignee, dueDate, priority, status, btnModifyCart);
         colunDone.appendChild(cart);
+        btnModifyCart.addEventListener('click', async (e) => {
+            const id = e.currentTarget.dataset.id;
+            const card = await modifyCart(id);
+            console.log(card);
+            document.querySelector('[name="title"]').value = card.data.title;
+            document.querySelector('[name="description"]').value = card.data.description;
+            document.querySelector('[name="priority"]').value = card.data.priority;
+            document.querySelector('[name="assignee"]').value = card.data.priority;
+            document.querySelector('[name="status"]').value = card.data.status;
+            document.querySelector('[name="date"]').value = card.data.dueDate;
+            openModal();
+
+        })
 
     });
 
@@ -253,7 +295,7 @@ export function getFilters() {
 
 export function renderAssignees(cards) {
 
-    if(filterAssignee.options.length > 1) return ;
+    if (filterAssignee.options.length > 1) return;
 
     const assignees = cards.map(card => card.assignee);
     const uniqueAssignees = [...new Set(assignees)];
@@ -278,7 +320,9 @@ export function resetFilters() {
     filterQ.value = '';
 }
 
-
+async function modifyCart(id) {
+    return await axios.get('https://flowboard-api-virid.vercel.app/cards/' + id);
+}
 
 
 

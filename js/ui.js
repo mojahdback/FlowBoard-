@@ -111,7 +111,8 @@ function createCart(cards) {
         const dueDate = creatEl('p', 'dueDate-class', card.dueDate);
         const priority = creatEl('span', 'priority-class', card.priority);
         const status = creatEl('span', 'status-class', card.status);
-        cart.append(title, assignee, dueDate, priority, status);
+        const btnModifyCart = creatEl('button' , 'btnModify' ,'Modify');
+        cart.append(title, assignee, dueDate, priority, status,btnModifyCart);
         colunTodo.appendChild(cart);
 
 
@@ -125,7 +126,8 @@ function createCart(cards) {
         const dueDate = creatEl('p', 'dueDate-class', card.dueDate);
         const priority = creatEl('span', 'priority-class', card.priority);
         const status = creatEl('span', 'status-class', card.status);
-        cart.append(title, assignee, dueDate, priority, status);
+        const btnModifyCart = creatEl('button' , 'btnModify' ,'Modify');
+        cart.append(title, assignee, dueDate, priority, status,btnModifyCart);
         colunDoing.appendChild(cart);
 
     });
@@ -138,7 +140,8 @@ function createCart(cards) {
         const dueDate = creatEl('p', 'dueDate-class', card.dueDate);
         const priority = creatEl('span', 'priority-class', card.priority);
         const status = creatEl('span', 'status-class', card.status);
-        cart.append(title, assignee, dueDate, priority, status);
+        const btnModifyCart = creatEl('button' , 'btnModify' ,'Modify');
+        cart.append(title, assignee, dueDate, priority, status,btnModifyCart);
         colunDone.appendChild(cart);
 
     });
@@ -274,6 +277,8 @@ export function resetFilters() {
     filterAssignee.value = '';
     filterQ.value = '';
 }
+
+
 
 
 

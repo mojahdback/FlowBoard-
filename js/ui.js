@@ -1,4 +1,4 @@
-import { getCards } from './api.js';
+import { getCards, changeStatus } from './api.js';
 
 const counTodo = document.getElementById('count-todo');
 const counDoing = document.getElementById('count-doing');
@@ -133,6 +133,13 @@ function createCart(cards) {
             document.querySelector('[name="status"]').value = card.data.status;
             document.querySelector('[name="date"]').value = card.data.dueDate;
             openModal();
+
+        })
+
+        btnRight.addEventListener('click' , async () => {
+            await changeStatus(card.id , 'in-progress');
+            card.status = 'in-progress';
+            createCart(cards);
 
         })
 

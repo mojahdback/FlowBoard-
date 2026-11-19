@@ -37,6 +37,7 @@ export const elements = {
     btnCancel: document.getElementById('btn-cancel'),
     btnSaveCart: document.getElementById('save-cart'),
     btnReset: document.getElementById('btn-reset'),
+    btnModifyCart: document.getElementById('modify-cart'),
     filterPriority,
     filterAssignee,
     filterQ
@@ -116,13 +117,15 @@ function createCart(cards) {
         cart.append(title, assignee, dueDate, priority, status, btnModifyCart);
         colunTodo.appendChild(cart);
         btnModifyCart.addEventListener('click', async (e) => {
+            elements.btnSaveCart.classList.add('hidden');
+            elements.btnModifyCart.classList.remove('hidden');
             const id = e.currentTarget.dataset.id;
-            const card = await modifyCart(id);
-            console.log(card);
+            const card = await getCartToModify(id);
+            document.querySelector('[name="idd"]').value = card.data.id;
             document.querySelector('[name="title"]').value = card.data.title;
             document.querySelector('[name="description"]').value = card.data.description;
             document.querySelector('[name="priority"]').value = card.data.priority;
-            document.querySelector('[name="assignee"]').value = card.data.priority;
+            document.querySelector('[name="assignee"]').value = card.data.assignee;
             document.querySelector('[name="status"]').value = card.data.status;
             document.querySelector('[name="date"]').value = card.data.dueDate;
             openModal();
@@ -145,13 +148,15 @@ function createCart(cards) {
         cart.append(title, assignee, dueDate, priority, status, btnModifyCart);
         colunDoing.appendChild(cart);
         btnModifyCart.addEventListener('click', async (e) => {
+            elements.btnSaveCart.classList.add('hidden');
+            elements.btnModifyCart.classList.remove('hidden');
             const id = e.currentTarget.dataset.id;
-            const card = await modifyCart(id);
-            console.log(card);
+            const card = await getCartToModify(id);
+            document.querySelector('[name="idd"]').value = card.data.id;
             document.querySelector('[name="title"]').value = card.data.title;
             document.querySelector('[name="description"]').value = card.data.description;
             document.querySelector('[name="priority"]').value = card.data.priority;
-            document.querySelector('[name="assignee"]').value = card.data.priority;
+            document.querySelector('[name="assignee"]').value = card.data.assignee;
             document.querySelector('[name="status"]').value = card.data.status;
             document.querySelector('[name="date"]').value = card.data.dueDate;
             openModal();
@@ -173,13 +178,15 @@ function createCart(cards) {
         cart.append(title, assignee, dueDate, priority, status, btnModifyCart);
         colunDone.appendChild(cart);
         btnModifyCart.addEventListener('click', async (e) => {
+            elements.btnSaveCart.classList.add('hidden');
+            elements.btnModifyCart.classList.remove('hidden');
             const id = e.currentTarget.dataset.id;
-            const card = await modifyCart(id);
-            console.log(card);
+            const card = await getCartToModify(id);
+            document.querySelector('[name="idd"]').value = card.data.id;
             document.querySelector('[name="title"]').value = card.data.title;
             document.querySelector('[name="description"]').value = card.data.description;
             document.querySelector('[name="priority"]').value = card.data.priority;
-            document.querySelector('[name="assignee"]').value = card.data.priority;
+            document.querySelector('[name="assignee"]').value = card.data.assignee;
             document.querySelector('[name="status"]').value = card.data.status;
             document.querySelector('[name="date"]').value = card.data.dueDate;
             openModal();
@@ -199,7 +206,6 @@ export function openModal() {
 
 export function closeModal() {
     modal.classList.add('hidden');
-
 }
 
 export function getFormData() {
@@ -223,6 +229,7 @@ export function validateForm() {
     if (titleCard.value.trim() === '') {
         errorTitle.textContent = "Invalide Title ";
         virifi = false;
+
     } else {
         errorTitle.textContent = '';
     }
@@ -255,6 +262,9 @@ export function validateForm() {
 
         errorDate.textContent = "La date doit être superieure a aujourd'hui";
         virifi = false;
+    }
+    else {
+        errorDate.textContent = '';
     }
 
     return virifi;
@@ -320,8 +330,31 @@ export function resetFilters() {
     filterQ.value = '';
 }
 
-async function modifyCart(id) {
+async function getCartToModify(id) {
     return await axios.get('https://flowboard-api-virid.vercel.app/cards/' + id);
+}
+
+
+export async function modifyCart(id, data) {
+
+    const options = {
+        method: 'PUT',
+        url: 'https://flowboard-api-virid.vercel.app/cards/' + id,
+        headers: {
+            'X-Workspace': 'public'
+        },
+        params: {
+            password: "1234"
+        },
+        data: data
+    }
+
+    try {
+        const { data } = await axios.request(options)
+       
+    } catch (error) {
+        console.error(error)
+    }
 }
 
 

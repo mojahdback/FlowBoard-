@@ -136,8 +136,8 @@ function createCart(cards) {
 
         })
 
-        btnRight.addEventListener('click' , async () => {
-            await changeStatus(card.id , 'in-progress');
+        btnRight.addEventListener('click', async () => {
+            await changeStatus(card.id, 'in-progress');
             card.status = 'in-progress';
             createCart(cards);
 
@@ -178,6 +178,21 @@ function createCart(cards) {
             openModal();
 
         })
+
+        btnLeft.addEventListener('click', async () => {
+
+            await changeStatus(card.id, 'todo');
+            card.status = 'todo';
+            createCart(cards);
+        });
+
+        btnRight.addEventListener('click', async () => {
+
+            await changeStatus(card.id, 'done');
+            card.status = 'done';
+            createCart(cards);
+
+        });
 
     });
 

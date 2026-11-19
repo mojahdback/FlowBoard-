@@ -10,7 +10,8 @@ import {
     getFormData,
     resetForm,
     getFilters,
-    resetFilters
+    resetFilters,
+    modifyCart
 } from './ui.js';
 
 const state = {
@@ -47,7 +48,7 @@ function loadCards(params = new URLSearchParams()) {
 
 }
 
-function addNewCart(){
+function addNewCart() {
     state.cards.push(getFormData());
 }
 
@@ -62,7 +63,7 @@ elements.btnSaveCart.addEventListener('click', () => {
     }
     addNewCart();
 
-    renderState();
+    renderState(state);
 
     closeModal();
     resetForm();
@@ -93,5 +94,29 @@ elements.btnReset.addEventListener('click', () => {
     loadCards();
 
 });
+
+
+elements.btnModifyCart.addEventListener('click', async () => {
+    if(!validateForm()){
+        return ;
+    }
+    let data = {
+        id:document.querySelector('[name="idd"]').value,
+        title:document.querySelector('[name="title"]').value,
+        description: document.querySelector('[name="description"]').value ,
+        priority: document.querySelector('[name="priority"]').value ,
+        assignee: document.querySelector('[name="assignee"]').value ,
+        status: document.querySelector('[name="status"]').value ,
+        dueDate: document.querySelector('[name="date"]').value 
+
+    }
+    
+    await modifyCart(data.id , data)
+    closeModal();
+    resetForm();
+    loadCards(getFilters());
+
+})
+
 
 loadCards();

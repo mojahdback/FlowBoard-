@@ -1,4 +1,4 @@
-import { getCards } from './api.js';
+import { getCards , deleteCard } from './api.js';
 import {
     elements,
     renderState,
@@ -13,7 +13,11 @@ import {
     resetFilters,
     modifyCart, 
     openModalDelete,
-    closeModalDelete
+    closeModalDelete,
+    selectedCardId,
+    currentCards,
+    createCart
+    
 } from './ui.js';
 
 const state = {
@@ -123,6 +127,33 @@ elements.btnModifyCart.addEventListener('click', async () => {
 elements.btnConfirmCancel.addEventListener('click' ,() => {
     closeModalDelete();
 })
+
+
+elements.btnConfirmDelete.addEventListener('click', async () => {
+    elements.confirmError.textContent = '';
+
+    try {
+        await deleteCard(selectedCardId);
+
+        const index = currentCards.findIndex(
+            card => String(card.id) === String(selectedCardId)
+        );
+
+        if (index !== -1) {
+            currentCards.splice(index, 1);
+        }
+
+        closeModalDelete();
+        createCart(currentCards);
+
+        selectedCardId = null;
+
+    } catch (error) {
+        console.log(error);
+        elements.confirmError.textContent = 'Erreur in delete';
+    }
+});
+
 
 
 loadCards();

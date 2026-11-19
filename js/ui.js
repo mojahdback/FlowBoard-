@@ -29,7 +29,7 @@ const filterQ = document.getElementById('filter-q');
 const statusMessage = document.getElementById('status-message');
 
 
-const confirmModal = document.getElementById('confirm-modal');
+
 // const confirmText = document.getElementById('confirm-text');
 // const confirmError = document.getElementById('confirm-error');
 
@@ -40,8 +40,9 @@ export const elements = {
     btnSaveCart: document.getElementById('save-cart'),
     btnReset: document.getElementById('btn-reset'),
     btnModifyCart: document.getElementById('modify-cart'),
-    btnConfirmDelete : document.getElementById('btn-confirm-delete'),
-    btnConfirmCancel : document.getElementById('btn-confirm-cancel'),
+    btnConfirmDelete: document.getElementById('btn-confirm-delete'),
+    btnConfirmCancel: document.getElementById('btn-confirm-cancel'),
+    confirmModal: document.getElementById('confirm-modal'),
     filterPriority,
     filterAssignee,
     filterQ
@@ -121,9 +122,9 @@ function createCart(cards) {
         const btns = document.createElement('div');
         btns.className = 'btns';
         const btnRight = creatEl('button', 'btn-right', '-->');
-        const btnDelete = creatEl('button' , 'btn-delete' , 'delete');
+        const btnDelete = creatEl('button', 'btn-delete', 'delete');
         btns.append(btnRight);
-        cart.append(title, assignee, dueDate, priority, status, btnModifyCart, btns ,btnDelete);
+        cart.append(title, assignee, dueDate, priority, status, btnModifyCart, btns, btnDelete);
         colunTodo.appendChild(cart);
         btnModifyCart.addEventListener('click', async (e) => {
             elements.btnSaveCart.classList.add('hidden');
@@ -148,6 +149,11 @@ function createCart(cards) {
 
         })
 
+        btnDelete.addEventListener('click', () => {
+            openModalDelete();
+
+        })
+
     });
 
 
@@ -165,9 +171,9 @@ function createCart(cards) {
         btns.className = 'btns';
         const btnRight = creatEl('button', 'btn-right', '-->');
         const btnLeft = creatEl('button', 'btn-left', '<--');
-        const btnDelete = creatEl('button' , 'btn-delete' , 'delete');
+        const btnDelete = creatEl('button', 'btn-delete', 'delete');
         btns.append(btnLeft, btnRight);
-        cart.append(title, assignee, dueDate, priority, status, btnModifyCart, btns , btnDelete);
+        cart.append(title, assignee, dueDate, priority, status, btnModifyCart, btns, btnDelete);
         colunDoing.appendChild(cart);
         btnModifyCart.addEventListener('click', async (e) => {
             elements.btnSaveCart.classList.add('hidden');
@@ -199,6 +205,10 @@ function createCart(cards) {
             createCart(cards);
 
         });
+        btnDelete.addEventListener('click', () => {
+            openModalDelete();
+
+        })
 
     });
 
@@ -215,9 +225,9 @@ function createCart(cards) {
         const btns = document.createElement('div');
         btns.className = 'btns';
         const btnLeft = creatEl('button', 'btn-left', '<--');
-        const btnDelete = creatEl('button' , 'btn-delete' , 'delete');
+        const btnDelete = creatEl('button', 'btn-delete', 'delete');
         btns.append(btnLeft);
-        cart.append(title, assignee, dueDate, priority, status, btnModifyCart, btns , btnDelete);
+        cart.append(title, assignee, dueDate, priority, status, btnModifyCart, btns, btnDelete);
         colunDone.appendChild(cart);
         btnModifyCart.addEventListener('click', async (e) => {
             elements.btnSaveCart.classList.add('hidden');
@@ -242,7 +252,11 @@ function createCart(cards) {
             createCart(cards);
 
         });
+        
+        btnDelete.addEventListener('click', () => {
+            openModalDelete();
 
+        })
     });
 
 
@@ -407,13 +421,13 @@ export async function modifyCart(id, data) {
     }
 }
 
-export function openModalDelete(){
-    confirmModal.classList.remove('hidden');
+export function openModalDelete() {
+    elements.confirmModal.classList.remove('hidden');
 
 }
 
-export function closeModalDelete(){
-    confirmModal.classList.add('hidden');
+export function closeModalDelete() {
+    elements.confirmModal.classList.add('hidden');
 }
 
 

@@ -99,7 +99,7 @@
         class="bg-white p-4 rounded w-80 flex flex-col gap-2"
       >
         <h2 class="font-bold">Nouvelle carte</h2>
-        <input type="hidden" name="idd">
+        <input type="hidden" name="idd" />
 
         <label for="title">Titre</label>
         <input id="title" name="title" class="border p-1 rounded" />
@@ -157,12 +157,41 @@
           <button
             type="button"
             id="modify-cart"
-            class=" hidden bg-blue-600 text-white px-3 py-1 rounded"
+            class="hidden bg-blue-600 text-white px-3 py-1 rounded"
           >
             modify
           </button>
         </div>
       </form>
+    </div>
+
+    <!-- Modal de confirmation -->
+    <div
+      id="confirm-modal"
+      class="hidden fixed inset-0 bg-black/50 flex items-center justify-center"
+    >
+      <div class="bg-white p-4 rounded w-80 flex flex-col gap-2">
+        <h2 class="font-bold">Confirmation</h2>
+        <p id="confirm-text"></p>
+        <p id="confirm-error" class="text-red-600 text-sm"></p>
+
+        <div class="flex justify-end gap-2 mt-2">
+          <button
+            type="button"
+            id="btn-confirm-cancel"
+            class="border px-3 py-1 rounded"
+          >
+            Annuler
+          </button>
+          <button
+            type="button"
+            id="btn-confirm-delete"
+            class="bg-red-600 text-white px-3 py-1 rounded"
+          >
+            Supprimer
+          </button>
+        </div>
+      </div>
     </div>
     <!-- à la fin de <body> -->
 

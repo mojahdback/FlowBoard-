@@ -37,3 +37,14 @@ export async function changeStatus(id , newStatus) {
 }
 
 
+export async function deleteCard(id) {
+    await axios.delete('https://flowboard-api-virid.vercel.app/cards/' + id ,
+        {
+            headers:{'X-Workspace': 'public'},
+            params:{password: '1234'}
+
+        }
+    );
+    
+}
+

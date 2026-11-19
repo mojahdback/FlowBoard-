@@ -114,7 +114,11 @@ function createCart(cards) {
         const status = creatEl('span', 'status-class', card.status);
         const btnModifyCart = creatEl('button', 'btnModify', 'Modify');
         btnModifyCart.setAttribute('data-id', card.id);
-        cart.append(title, assignee, dueDate, priority, status, btnModifyCart);
+        const btns = document.createElement('div');
+        btns.className = 'btns';
+        const btnRight = creatEl('button', 'btn-right', '-->');
+        btns.append(btnRight);
+        cart.append(title, assignee, dueDate, priority, status, btnModifyCart, btns);
         colunTodo.appendChild(cart);
         btnModifyCart.addEventListener('click', async (e) => {
             elements.btnSaveCart.classList.add('hidden');
@@ -145,7 +149,12 @@ function createCart(cards) {
         const status = creatEl('span', 'status-class', card.status);
         const btnModifyCart = creatEl('button', 'btnModify', 'Modify');
         btnModifyCart.setAttribute('data-id', card.id);
-        cart.append(title, assignee, dueDate, priority, status, btnModifyCart);
+        const btns = document.createElement('div');
+        btns.className = 'btns';
+        const btnRight = creatEl('button', 'btn-right', '-->');
+        const btnLeft = creatEl('button', 'btn-left', '<--');
+        btns.append(btnLeft, btnRight);
+        cart.append(title, assignee, dueDate, priority, status, btnModifyCart, btns);
         colunDoing.appendChild(cart);
         btnModifyCart.addEventListener('click', async (e) => {
             elements.btnSaveCart.classList.add('hidden');
@@ -175,7 +184,11 @@ function createCart(cards) {
         const status = creatEl('span', 'status-class', card.status);
         const btnModifyCart = creatEl('button', 'btnModify', 'Modify');
         btnModifyCart.setAttribute('data-id', card.id);
-        cart.append(title, assignee, dueDate, priority, status, btnModifyCart);
+        const btns = document.createElement('div');
+        btns.className = 'btns';
+        const btnLeft = creatEl('button', 'btn-left', '<--');
+        btns.append(btnLeft);
+        cart.append(title, assignee, dueDate, priority, status, btnModifyCart, btns);
         colunDone.appendChild(cart);
         btnModifyCart.addEventListener('click', async (e) => {
             elements.btnSaveCart.classList.add('hidden');
@@ -351,7 +364,7 @@ export async function modifyCart(id, data) {
 
     try {
         const { data } = await axios.request(options)
-       
+
     } catch (error) {
         console.error(error)
     }

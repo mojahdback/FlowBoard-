@@ -228,6 +228,14 @@ function createCart(cards) {
 
         })
 
+        btnLeft.addEventListener('click', async () => {
+
+            await changeStatus(card.id, 'in-progress');
+            card.status = 'in-progress';
+            createCart(cards);
+
+        });
+
     });
 
 

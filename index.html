@@ -99,6 +99,7 @@
         class="bg-white p-4 rounded w-80 flex flex-col gap-2"
       >
         <h2 class="font-bold">Nouvelle carte</h2>
+        <input type="hidden" name="idd">
 
         <label for="title">Titre</label>
         <input id="title" name="title" class="border p-1 rounded" />
@@ -130,7 +131,12 @@
           <option value="done">Terminé</option>
         </select>
 
-        <input id="date" type="date" placeholder="Enter due date..." />
+        <input
+          id="date"
+          type="date"
+          name="date"
+          placeholder="Enter due date..."
+        />
         <p id="error-date" class="text-red-600 text-sm"></p>
 
         <div class="flex justify-end gap-2 mt-2">
@@ -148,11 +154,18 @@
           >
             Ajouter
           </button>
+          <button
+            type="button"
+            id="modify-cart"
+            class=" hidden bg-blue-600 text-white px-3 py-1 rounded"
+          >
+            modify
+          </button>
         </div>
       </form>
     </div>
     <!-- à la fin de <body> -->
-  
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" src="js/main.js"></script>
   </body>

@@ -11,7 +11,9 @@ import {
     resetForm,
     getFilters,
     resetFilters,
-    modifyCart
+    modifyCart, 
+    openModalDelete,
+    closeModalDelete
 } from './ui.js';
 
 const state = {
@@ -116,6 +118,10 @@ elements.btnModifyCart.addEventListener('click', async () => {
     resetForm();
     loadCards(getFilters());
 
+});
+
+elements.btnConfirmCancel.addEventListener('click' ,() => {
+    closeModalDelete();
 })
 
 

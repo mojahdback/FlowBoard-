@@ -14,7 +14,6 @@ const board = document.getElementById('board');
 const modal = document.getElementById('modal');
 const cardForm = document.getElementById('card-form');
 
-
 const titleCard = document.getElementById('title');
 const descriptCard = document.getElementById('description');
 const priorityCard = document.getElementById('priority');
@@ -28,11 +27,6 @@ const filterAssignee = document.getElementById('filter-assignee');
 const filterQ = document.getElementById('filter-q');
 const statusMessage = document.getElementById('status-message');
 
-
-
-// const confirmText = document.getElementById('confirm-text');
-// const confirmError = document.getElementById('confirm-error');
-
 export const elements = {
     retryBtn: document.getElementById('retry'),
     newCartBtn: document.getElementById('btn-new-card'),
@@ -43,6 +37,8 @@ export const elements = {
     btnConfirmDelete: document.getElementById('btn-confirm-delete'),
     btnConfirmCancel: document.getElementById('btn-confirm-cancel'),
     confirmModal: document.getElementById('confirm-modal'),
+    confirmText : document.getElementById('confirm-text'),
+    confirmError : document.getElementById('confirm-error'),
     filterPriority,
     filterAssignee,
     filterQ
@@ -94,8 +90,11 @@ function creatEl(tag, class_Name, text) {
 
 }
 
-function createCart(cards) {
+export let selectedCardId = null;
+export let currentCards = [];
 
+export function createCart(cards) {
+    currentCards = cards;
     colunTodo.innerHTML = '';
     colunDoing.innerHTML = '';
     colunDone.innerHTML = '';
@@ -110,155 +109,99 @@ function createCart(cards) {
 
 
     todoCards.forEach(card => {
-        const cart = document.createElement('div');
-        cart.className = 'card'
-        const title = creatEl('p', 'title-class', card.title);
-        const assignee = creatEl('p', 'assignee-class', card.assignee);
-        const dueDate = creatEl('p', 'dueDate-class', card.dueDate);
-        const priority = creatEl('span', 'priority-class', card.priority);
-        const status = creatEl('span', 'status-class', card.status);
-        const btnModifyCart = creatEl('button', 'btnModify', 'Modify');
-        btnModifyCart.setAttribute('data-id', card.id);
+        let cart = createCardElement(card, cards);
         const btns = document.createElement('div');
         btns.className = 'btns';
         const btnRight = creatEl('button', 'btn-right', '-->');
-        const btnDelete = creatEl('button', 'btn-delete', 'delete');
         btns.append(btnRight);
-        cart.append(title, assignee, dueDate, priority, status, btnModifyCart, btns, btnDelete);
-        colunTodo.appendChild(cart);
-        btnModifyCart.addEventListener('click', async (e) => {
-            elements.btnSaveCart.classList.add('hidden');
-            elements.btnModifyCart.classList.remove('hidden');
-            const id = e.currentTarget.dataset.id;
-            const card = await getCartToModify(id);
-            document.querySelector('[name="idd"]').value = card.data.id;
-            document.querySelector('[name="title"]').value = card.data.title;
-            document.querySelector('[name="description"]').value = card.data.description;
-            document.querySelector('[name="priority"]').value = card.data.priority;
-            document.querySelector('[name="assignee"]').value = card.data.assignee;
-            document.querySelector('[name="status"]').value = card.data.status;
-            document.querySelector('[name="date"]').value = card.data.dueDate;
-            openModal();
-
-        })
-
+        cart.append(btns)
+        colunTodo.append(cart);
         btnRight.addEventListener('click', async () => {
-            await changeStatus(card.id, 'in-progress');
-            card.status = 'in-progress';
-            createCart(cards);
+            btnRight.disabled = true;
+            try {
+                await changeStatus(card.id, 'in-progress');
+                card.status = 'in-progress';
+                createCart(cards);
+
+            } catch (error) {
+                console.log(error);
+                btnRight.disabled = false;
+            }
 
         })
 
-        btnDelete.addEventListener('click', () => {
-            openModalDelete();
 
-        })
-
-    });
-
+    })
 
     doingCards.forEach(card => {
-        const cart = document.createElement('div');
-        cart.className = 'card';
-        const title = creatEl('p', 'title-class', card.title);
-        const assignee = creatEl('p', 'assignee-class', card.assignee);
-        const dueDate = creatEl('p', 'dueDate-class', card.dueDate);
-        const priority = creatEl('span', 'priority-class', card.priority);
-        const status = creatEl('span', 'status-class', card.status);
-        const btnModifyCart = creatEl('button', 'btnModify', 'Modify');
-        btnModifyCart.setAttribute('data-id', card.id);
+
+        let cart = createCardElement(card, cards);
         const btns = document.createElement('div');
         btns.className = 'btns';
         const btnRight = creatEl('button', 'btn-right', '-->');
         const btnLeft = creatEl('button', 'btn-left', '<--');
-        const btnDelete = creatEl('button', 'btn-delete', 'delete');
-        btns.append(btnLeft, btnRight);
-        cart.append(title, assignee, dueDate, priority, status, btnModifyCart, btns, btnDelete);
-        colunDoing.appendChild(cart);
-        btnModifyCart.addEventListener('click', async (e) => {
-            elements.btnSaveCart.classList.add('hidden');
-            elements.btnModifyCart.classList.remove('hidden');
-            const id = e.currentTarget.dataset.id;
-            const card = await getCartToModify(id);
-            document.querySelector('[name="idd"]').value = card.data.id;
-            document.querySelector('[name="title"]').value = card.data.title;
-            document.querySelector('[name="description"]').value = card.data.description;
-            document.querySelector('[name="priority"]').value = card.data.priority;
-            document.querySelector('[name="assignee"]').value = card.data.assignee;
-            document.querySelector('[name="status"]').value = card.data.status;
-            document.querySelector('[name="date"]').value = card.data.dueDate;
-            openModal();
-
-        })
-
+        btns.append(btnLeft, btnRight)
+        cart.appendChild(btns);
+        colunDoing.append(cart);
         btnLeft.addEventListener('click', async () => {
+            btnLeft.disabled = true;
+            try {
+                await changeStatus(card.id, 'todo');
+                card.status = 'todo';
+                createCart(cards);
 
-            await changeStatus(card.id, 'todo');
-            card.status = 'todo';
-            createCart(cards);
+            }
+            catch (error) {
+                console.log(error);
+                btnLeft.disabled = false;
+            }
+
         });
 
         btnRight.addEventListener('click', async () => {
+            btnRight.disabled = true;
+            try {
+                await changeStatus(card.id, 'done');
+                card.status = 'done';
+                createCart(cards);
+            }
 
-            await changeStatus(card.id, 'done');
-            card.status = 'done';
-            createCart(cards);
+            catch (error) {
+                console.log(error)
+                btnRight.disabled = false;
+            }
+
 
         });
-        btnDelete.addEventListener('click', () => {
-            openModalDelete();
 
-        })
 
     });
 
     doneCards.forEach(card => {
-        const cart = document.createElement('div');
-        cart.className = 'card';
-        const title = creatEl('p', 'title-class', card.title);
-        const assignee = creatEl('p', 'assignee-class', card.assignee);
-        const dueDate = creatEl('p', 'dueDate-class', card.dueDate);
-        const priority = creatEl('span', 'priority-class', card.priority);
-        const status = creatEl('span', 'status-class', card.status);
-        const btnModifyCart = creatEl('button', 'btnModify', 'Modify');
-        btnModifyCart.setAttribute('data-id', card.id);
+        let cart = createCardElement(card, cards);
         const btns = document.createElement('div');
         btns.className = 'btns';
         const btnLeft = creatEl('button', 'btn-left', '<--');
-        const btnDelete = creatEl('button', 'btn-delete', 'delete');
-        btns.append(btnLeft);
-        cart.append(title, assignee, dueDate, priority, status, btnModifyCart, btns, btnDelete);
+        btns.appendChild(btnLeft)
+        cart.appendChild(btns);
         colunDone.appendChild(cart);
-        btnModifyCart.addEventListener('click', async (e) => {
-            elements.btnSaveCart.classList.add('hidden');
-            elements.btnModifyCart.classList.remove('hidden');
-            const id = e.currentTarget.dataset.id;
-            const card = await getCartToModify(id);
-            document.querySelector('[name="idd"]').value = card.data.id;
-            document.querySelector('[name="title"]').value = card.data.title;
-            document.querySelector('[name="description"]').value = card.data.description;
-            document.querySelector('[name="priority"]').value = card.data.priority;
-            document.querySelector('[name="assignee"]').value = card.data.assignee;
-            document.querySelector('[name="status"]').value = card.data.status;
-            document.querySelector('[name="date"]').value = card.data.dueDate;
-            openModal();
-
-        })
-
         btnLeft.addEventListener('click', async () => {
+            btnLeft.disabled = true;
+            try {
+                await changeStatus(card.id, 'in-progress');
+                card.status = 'in-progress';
+                createCart(cards);
 
-            await changeStatus(card.id, 'in-progress');
-            card.status = 'in-progress';
-            createCart(cards);
+            }
+            catch (error) {
+                console.log(error);
+                btnLeft.disabled = false;
+            }
+
 
         });
-        
-        btnDelete.addEventListener('click', () => {
-            openModalDelete();
 
-        })
     });
-
 
 }
 
@@ -430,6 +373,48 @@ export function closeModalDelete() {
     elements.confirmModal.classList.add('hidden');
 }
 
+
+function createCardElement(card, cards) {
+    const cart = document.createElement('div');
+    cart.className = 'card';
+    const title = creatEl('p', 'title-class', card.title);
+    const assignee = creatEl('p', 'assignee-class', card.assignee);
+    const dueDate = creatEl('p', 'dueDate-class', card.dueDate);
+    const priority = creatEl('span', 'priority-class', card.priority);
+    const status = creatEl('span', 'status-class', card.status);
+    const btnModifyCart = creatEl('button', 'btnModify', 'Modify');
+    btnModifyCart.setAttribute('data-id', card.id);
+    const btnDelete = creatEl('button', 'btn-delete', 'delete');
+    cart.append(title, assignee, dueDate, priority, status, btnModifyCart, btnDelete);
+    btnModifyCart.addEventListener('click', async (e) => {
+        elements.btnSaveCart.classList.add('hidden');
+        elements.btnModifyCart.classList.remove('hidden');
+        const id = e.currentTarget.dataset.id;
+        const card = await getCartToModify(id);
+        document.querySelector('[name="idd"]').value = card.data.id;
+        document.querySelector('[name="title"]').value = card.data.title;
+        document.querySelector('[name="description"]').value = card.data.description;
+        document.querySelector('[name="priority"]').value = card.data.priority;
+        document.querySelector('[name="assignee"]').value = card.data.assignee;
+        document.querySelector('[name="status"]').value = card.data.status;
+        document.querySelector('[name="date"]').value = card.data.dueDate;
+        openModal();
+
+    })
+
+    btnDelete.addEventListener('click', () => {
+        selectedCardId = card.id;
+
+        elements.confirmText.textContent = 'Delete card ' + card.title + '?';
+        elements.confirmError.textContent = '';
+
+        openModalDelete();
+
+    });
+
+    return cart;
+
+}
 
 
 

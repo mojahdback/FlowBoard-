@@ -14,7 +14,9 @@ import {
     closeModalDelete,
     selectedCardId,
     currentCards,
-    createCart
+    createCart,
+    openAiModal, 
+    closeAiModal 
     
 } from './ui.js';
 
@@ -149,6 +151,7 @@ elements.btnConfirmDelete.addEventListener('click', async () => {
     }
 });
 
-
+elements.btnAiGenerate.addEventListener('click', openAiModal);
+elements.aiCancel.addEventListener('click', closeAiModal);
 
 loadCards();

@@ -1,4 +1,4 @@
-import { getCards, changeStatus , getCartToModify} from './api.js';
+import { getCards, changeStatus, getCartToModify } from './api.js';
 
 const counTodo = document.getElementById('count-todo');
 const counDoing = document.getElementById('count-doing');
@@ -38,11 +38,17 @@ export const elements = {
     btnConfirmDelete: document.getElementById('btn-confirm-delete'),
     btnConfirmCancel: document.getElementById('btn-confirm-cancel'),
     confirmModal: document.getElementById('confirm-modal'),
-    confirmText : document.getElementById('confirm-text'),
-    confirmError : document.getElementById('confirm-error'),
+    confirmText: document.getElementById('confirm-text'),
+    confirmError: document.getElementById('confirm-error'),
     aiModal: document.getElementById('ai-modal'),
     btnAiGenerate: document.getElementById('btn-ai-generate'),
     aiCancel: document.getElementById('ai-cancel'),
+    aiForm: document.getElementById('ai-form'),
+    aiDescription: document.getElementById('ai-description'),
+    aiApiKey: document.getElementById('ai-api-key'),
+    aiSubmit: document.getElementById('ai-submit'),
+    aiError: document.getElementById('ai-error'),
+    aiLoading: document.getElementById('ai-loading'),
     filterPriority,
     filterAssignee,
     filterQ
@@ -401,6 +407,12 @@ export function openAiModal() {
 
 export function closeAiModal() {
     elements.aiModal.classList.add('hidden');
+}
+
+export function resetAiForm() {
+    elements.aiForm.reset();
+    elements.aiError.textContent = '';
+    elements.aiLoading.classList.add('hidden');
 }
 
 

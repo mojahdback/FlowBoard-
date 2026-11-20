@@ -1,4 +1,4 @@
-import { getCards , deleteCard , modifyCart } from './api.js';
+import { getCards, deleteCard, modifyCart } from './api.js';
 import {
     elements,
     renderState,
@@ -10,15 +10,18 @@ import {
     getFormData,
     resetForm,
     getFilters,
-    resetFilters, 
+    resetFilters,
     closeModalDelete,
     selectedCardId,
     currentCards,
     createCart,
-    openAiModal, 
-    closeAiModal 
-    
+    openAiModal,
+    closeAiModal,
+    resetAiForm
+
 } from './ui.js';
+
+import { generateCards } from './aiService.js';
 
 const state = {
     cards: [],
@@ -100,28 +103,28 @@ elements.btnReset.addEventListener('click', () => {
 
 
 elements.btnModifyCart.addEventListener('click', async () => {
-    if(!validateForm()){
-        return ;
+    if (!validateForm()) {
+        return;
     }
     let data = {
-        id:document.querySelector('[name="idd"]').value,
-        title:document.querySelector('[name="title"]').value,
-        description: document.querySelector('[name="description"]').value ,
-        priority: document.querySelector('[name="priority"]').value ,
-        assignee: document.querySelector('[name="assignee"]').value ,
-        status: document.querySelector('[name="status"]').value ,
-        dueDate: document.querySelector('[name="date"]').value 
+        id: document.querySelector('[name="idd"]').value,
+        title: document.querySelector('[name="title"]').value,
+        description: document.querySelector('[name="description"]').value,
+        priority: document.querySelector('[name="priority"]').value,
+        assignee: document.querySelector('[name="assignee"]').value,
+        status: document.querySelector('[name="status"]').value,
+        dueDate: document.querySelector('[name="date"]').value
 
     }
-    
-    await modifyCart(data.id , data)
+
+    await modifyCart(data.id, data)
     closeModal();
     resetForm();
     loadCards(getFilters());
 
 });
 
-elements.btnConfirmCancel.addEventListener('click' ,() => {
+elements.btnConfirmCancel.addEventListener('click', () => {
     closeModalDelete();
 })
 
@@ -153,5 +156,47 @@ elements.btnConfirmDelete.addEventListener('click', async () => {
 
 elements.btnAiGenerate.addEventListener('click', openAiModal);
 elements.aiCancel.addEventListener('click', closeAiModal);
+
+elements.aiForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const description = elements.aiDescription.value.trim();
+    const apiKey = elements.aiApiKey.value.trim();
+    if (description.length < 20 || description > 10000 || !apiKey) {
+        elements.aiError.textContent = "invalide choice";
+        return
+    }
+
+    elements.aiSubmit.disabled = true;
+    elements.aiDescription.disabled = true;
+    elements.aiApiKey.disabled = true;
+    elements.aiLoading.classList.remove('hidden');
+    elements.aiError.textContent = '';
+
+
+    try {
+        const generatedCards = await generateCards(description, apiKey);
+
+        state.cards.push(...generatedCards);
+        renderState(state);
+
+        showStatusMessage(
+            `${generatedCards.length} cartes créées avec succès !`
+        );
+
+        closeAiModal();
+        resetAiForm();
+
+    } catch (error) {
+        elements.aiError.textContent = 'Erreur de génération';
+    } finally {
+        elements.aiSubmit.disabled = false;
+        elements.aiDescription.disabled = false;
+        elements.aiApiKey.disabled = false;
+        elements.aiLoading.classList.add('hidden');
+        elements.aiApiKey.value = '';
+    }
+
+})
 
 loadCards();

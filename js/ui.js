@@ -1,4 +1,4 @@
-import { getCards, changeStatus } from './api.js';
+import { getCards, changeStatus , getCartToModify} from './api.js';
 
 const counTodo = document.getElementById('count-todo');
 const counDoing = document.getElementById('count-doing');
@@ -20,6 +20,7 @@ const priorityCard = document.getElementById('priority');
 const assigneeCard = document.getElementById('assignee');
 const statusCard = document.getElementById('status');
 const dateCard = document.getElementById('date');
+
 
 
 const filterPriority = document.getElementById('filter-priority');
@@ -337,32 +338,6 @@ export function resetFilters() {
     filterQ.value = '';
 }
 
-async function getCartToModify(id) {
-    return await axios.get('https://flowboard-api-virid.vercel.app/cards/' + id);
-}
-
-
-export async function modifyCart(id, data) {
-
-    const options = {
-        method: 'PUT',
-        url: 'https://flowboard-api-virid.vercel.app/cards/' + id,
-        headers: {
-            'X-Workspace': 'public'
-        },
-        params: {
-            password: "1234"
-        },
-        data: data
-    }
-
-    try {
-        const { data } = await axios.request(options)
-
-    } catch (error) {
-        console.error(error)
-    }
-}
 
 export function openModalDelete() {
     elements.confirmModal.classList.remove('hidden');

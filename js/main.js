@@ -1,4 +1,4 @@
-import { getCards , deleteCard } from './api.js';
+import { getCards , deleteCard , modifyCart } from './api.js';
 import {
     elements,
     renderState,
@@ -10,9 +10,7 @@ import {
     getFormData,
     resetForm,
     getFilters,
-    resetFilters,
-    modifyCart, 
-    openModalDelete,
+    resetFilters, 
     closeModalDelete,
     selectedCardId,
     currentCards,
@@ -58,7 +56,6 @@ function addNewCart() {
     state.cards.push(getFormData());
 }
 
-
 elements.retryBtn.addEventListener('click', () => loadCards())
 elements.newCartBtn.addEventListener('click', openModal);
 elements.btnCancel.addEventListener('click', closeModal);
@@ -68,9 +65,7 @@ elements.btnSaveCart.addEventListener('click', () => {
         return;
     }
     addNewCart();
-
     renderState(state);
-
     closeModal();
     resetForm();
 

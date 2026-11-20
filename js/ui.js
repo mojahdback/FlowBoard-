@@ -40,6 +40,9 @@ export const elements = {
     confirmModal: document.getElementById('confirm-modal'),
     confirmText : document.getElementById('confirm-text'),
     confirmError : document.getElementById('confirm-error'),
+    aiModal: document.getElementById('ai-modal'),
+    btnAiGenerate: document.getElementById('btn-ai-generate'),
+    aiCancel: document.getElementById('ai-cancel'),
     filterPriority,
     filterAssignee,
     filterQ
@@ -390,7 +393,15 @@ function createCardElement(card, cards) {
     return cart;
 
 }
+// ai modal
 
+export function openAiModal() {
+    elements.aiModal.classList.remove('hidden');
+}
+
+export function closeAiModal() {
+    elements.aiModal.classList.add('hidden');
+}
 
 
 

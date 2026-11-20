@@ -22,12 +22,24 @@ import {
 } from './ui.js';
 
 import { generateCards } from './aiService.js';
+import { saveFilters, getSavedFilters } from './store.js';
 
 const state = {
     cards: [],
     loading: false,
     error: null
 };
+
+const savedFilters = getSavedFilters();
+console.log('Filters restored:', savedFilters);
+
+if (savedFilters) {
+    elements.filterPriority.value = savedFilters.priority || '';
+    elements.filterAssignee.value = savedFilters.assignee || '';
+    elements.filterQ.value = savedFilters.q || '';
+}
+
+loadCards(getFilters());
 
 
 function loadCards(params = new URLSearchParams()) {
@@ -78,6 +90,11 @@ elements.btnSaveCart.addEventListener('click', () => {
 
 
 elements.filterPriority.addEventListener('change', () => {
+    saveFilters({
+        priority: elements.filterPriority.value,
+        assignee: elements.filterAssignee.value,
+        q: elements.filterQ.value
+    });
 
     loadCards(getFilters());
 
@@ -85,11 +102,23 @@ elements.filterPriority.addEventListener('change', () => {
 
 elements.filterAssignee.addEventListener('change', () => {
 
+    saveFilters({
+        priority: elements.filterPriority.value,
+        assignee: elements.filterAssignee.value,
+        q: elements.filterQ.value
+    });
+
     loadCards(getFilters());
 
 });
 
 elements.filterQ.addEventListener('input', () => {
+
+    saveFilters({
+        priority: elements.filterPriority.value,
+        assignee: elements.filterAssignee.value,
+        q: elements.filterQ.value
+    });
 
     loadCards(getFilters());
 
@@ -97,6 +126,12 @@ elements.filterQ.addEventListener('input', () => {
 
 elements.btnReset.addEventListener('click', () => {
     resetFilters();
+    saveFilters({
+        priority: '',
+        assignee: '',
+        q: ''
+    });
+
     loadCards();
 
 });
@@ -162,7 +197,7 @@ elements.aiForm.addEventListener('submit', async (e) => {
 
     const description = elements.aiDescription.value.trim();
     const apiKey = elements.aiApiKey.value.trim();
-    if (description.length < 20 || description > 10000 || !apiKey) {
+    if (description.length < 20 || description.length > 10000 || !apiKey) {
         elements.aiError.textContent = "invalide choice";
         return
     }
@@ -199,4 +234,3 @@ elements.aiForm.addEventListener('submit', async (e) => {
 
 })
 
-loadCards();

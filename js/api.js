@@ -73,3 +73,17 @@ export async function deleteCard(id) {
 
 }
 
+
+export async function createCard(card) {
+    const { data } = await axios.post('https://flowboard-api-virid.vercel.app/cards/',
+        card,
+        {
+            headers: { 'X-Workspace': 'public' },
+            params: { password: '1234' }
+
+        }
+    );
+
+    return data ; 
+
+}

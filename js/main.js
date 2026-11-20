@@ -1,4 +1,4 @@
-import { getCards, deleteCard, modifyCart } from './api.js';
+import { getCards, deleteCard, modifyCart, createCard } from './api.js';
 import {
     elements,
     renderState,
@@ -77,16 +77,28 @@ elements.retryBtn.addEventListener('click', () => loadCards())
 elements.newCartBtn.addEventListener('click', openModal);
 elements.btnCancel.addEventListener('click', closeModal);
 
-elements.btnSaveCart.addEventListener('click', () => {
+elements.btnSaveCart.addEventListener('click', async () => {
     if (!validateForm()) {
         return;
     }
-    addNewCart();
-    renderState(state);
-    closeModal();
-    resetForm();
 
-})
+    elements.btnSaveCart.disabled = true;
+    try {
+        const newCart = await createCard(getFormData());
+
+        state.cards.push(newCart);
+        renderState(state);
+        closeModal();
+        resetForm();
+
+    } catch (error) {
+        showStatusMessage('Error of creation the card');
+    } finally {
+        elements.btnSaveCart.disabled = false ;
+    }
+
+
+});
 
 
 elements.filterPriority.addEventListener('change', () => {
